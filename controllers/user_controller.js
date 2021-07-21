@@ -17,7 +17,12 @@ exports.create = (request, response) => {
         username: user.username,
         password_digest: hashedPassword
       })
-      .then(newUser => response.status(201).json(newUser));
+      .then(newUser => {
+        const payload = { user_id: newUser.id };
+        const secret = process.env.AUTH_SECRET;
+        const token = jwt.sign(payload, secret);
+        response.status(200).json({ token, user: newUser });
+      });
   });
 };
 
