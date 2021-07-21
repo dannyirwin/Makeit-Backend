@@ -1,10 +1,12 @@
-const { Model } = require('objection');
-const database = require('../database');
+//TODO: you might not need this, delete this later
 
-Model.knex(database);
+// const { Model } = require('objection');
+// const database = require('../database');
 
-class FollowerFollowee extends Model {
-    static tableName = 'follower_followees'
-}
+// Model.knex(database);
 
-module.exports = {FollowerFollowee}
+// class FollowerFollowee extends Model {
+//     static tableName = 'follower_followees'
+// }
+
+// module.exports = {FollowerFollowee}
