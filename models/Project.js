@@ -6,4 +6,4 @@ class Project extends Model {
   static tableName = 'projects';
 }
 
-module.exports = { Project };
+module.exports = Project;

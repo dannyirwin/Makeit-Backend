@@ -1,5 +1,5 @@
 const { Model } = require('objection');
-const { Project } = require('./Project');
+const Project = require('./Project');
 const database = require('../database');
 Model.knex(database);
 
@@ -42,4 +42,4 @@ class User extends Model {
   };
 }
 
-module.exports = { User };
+module.exports = User;
