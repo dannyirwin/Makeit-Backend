@@ -1,13 +1,28 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const users = require('../routes/users');
 
 const { sendUserWithToken } = require('../utilities/userUtilities');
 
-exports.index = (_, response) => {
-  User.query()
-    .withGraphFetched(userGraphFetchedValues())
-    .then(users => response.status(200).json(users));
+exports.index = async (request, response) => {
+  const searchString = request.query.search.toLowerCase();
+  const user = request.user;
+  if (searchString) {
+    const searchArray = searchString.split(' ');
+    const usernamesAndIds = await User.query().select('username', 'id');
+    let matchingIds = new Set();
+    searchArray.map(subString => {
+      const matching = usernamesAndIds.filter(({ username, id }) => {
+        return username.toLowerCase().includes(subString) && id !== user.id;
+      });
+      const ids = matching.map(user => user.id);
+      matchingIds = [...matchingIds, ...ids];
+      User.query()
+        .findByIds(matchingIds)
+        .then(users => response.status(200).json({ users }));
+    });
+  }
 };
 
 exports.create = (request, response) => {
