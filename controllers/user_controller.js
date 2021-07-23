@@ -2,24 +2,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const sendUserWithToken = async (userId, response) => {
-  const payload = { user_id: userId };
-  const secret = process.env.AUTH_SECRET;
-  const token = jwt.sign(payload, secret);
-  return await User.query()
-    .findById(userId)
-    .withGraphFetched('[followers, following, myProjects]')
-    .then(user =>
-      response.status(200).json({
-        token,
-        user: user
-      })
-    );
-};
+const { sendUserWithToken } = require('../utilities/userUtilities');
 
 exports.index = (_, response) => {
   User.query()
-    .withGraphFetched('[followers, following, myProjects]')
+    .withGraphFetched(userGraphFetchedValues())
     .then(users => response.status(200).json(users));
 };
 
