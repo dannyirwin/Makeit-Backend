@@ -1,12 +1,10 @@
-//TODO: you might not need this, delete this later
+const { Model } = require('objection');
+const database = require('../database');
 
-// const { Model } = require('objection');
-// const database = require('../database');
+Model.knex(database);
 
-// Model.knex(database);
+class FollowerFollowee extends Model {
+  static tableName = 'follower_followees';
+}
 
-// class FollowerFollowee extends Model {
-//     static tableName = 'follower_followees'
-// }
-
-// module.exports = {FollowerFollowee}
+module.exports = FollowerFollowee;
