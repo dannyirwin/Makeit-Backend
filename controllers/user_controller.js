@@ -2,6 +2,21 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+const sendUserWithToken = async (userId, response) => {
+  const payload = { user_id: userId };
+  const secret = process.env.AUTH_SECRET;
+  const token = jwt.sign(payload, secret);
+  return await User.query()
+    .findById(userId)
+    .withGraphFetched('[followers, following, myProjects]')
+    .then(user =>
+      response.status(200).json({
+        token,
+        user: user
+      })
+    );
+};
+
 exports.index = (_, response) => {
   User.query()
     .withGraphFetched('[followers, following, myProjects]')
@@ -18,10 +33,7 @@ exports.create = (request, response) => {
         password_digest: hashedPassword
       })
       .then(newUser => {
-        const payload = { user_id: newUser.id };
-        const secret = process.env.AUTH_SECRET;
-        const token = jwt.sign(payload, secret);
-        response.status(200).json({ token, user: newUser });
+        sendUserWithToken(newUser.id, response);
       });
   });
 };
@@ -43,10 +55,7 @@ exports.login = (request, response) => {
                 .status(401)
                 .json({ error: 'Invalid username or password' });
             } else {
-              const payload = { user_id: existingUser.id };
-              const secret = process.env.AUTH_SECRET;
-              const token = jwt.sign(payload, secret);
-              response.status(200).json({ token, user: existingUser });
+              sendUserWithToken(existingUser.id, response);
             }
           });
       }

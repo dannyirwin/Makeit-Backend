@@ -5,7 +5,6 @@ exports.seed = function (knex) {
     .del()
     .then(function () {
       const allUsers = database('users').map;
-      console.log(allUsers);
       // Inserts seed entries
       return knex('follower_followees').insert([
         { follower_id: 2, followee_id: 1 },
