@@ -20,7 +20,7 @@ exports.index = async (request, response) => {
       matchingIds = [...matchingIds, ...ids];
       User.query()
         .findByIds(matchingIds)
-        .then(users => response.status(200).json({ users }));
+        .then(users => response.json({ users }));
     });
   }
 };
