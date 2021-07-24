@@ -39,6 +39,6 @@ const sendUserWithProject = async (userId, response, project) => {
     });
 };
 const userGraphFetchedValues = () =>
-  `[followers, following, myProjects.[author]]`;
+  `[followers, following, myProjects.[author], followed_projects.[author]]`;
 
 module.exports = { sendUserWithToken, sendUser, sendUserWithProject };

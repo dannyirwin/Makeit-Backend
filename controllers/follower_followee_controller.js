@@ -7,7 +7,6 @@ exports.create = (request, response) => {
   FollowerFollowee.query()
     .insert(follower_followee)
     .then(follower_followee => {
-      console.log(request.user);
       sendUser(request.user.id, response);
     });
 };
