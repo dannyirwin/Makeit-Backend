@@ -1,27 +1,39 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const users = require('../routes/users');
 
 const { sendUserWithToken } = require('../utilities/userUtilities');
+
+const userContainsSubString = (user, otherUser, subString) => {
+  return (
+    (user.username.toLowerCase().includes(subString) ||
+      user.about_me.toLowerCase().includes(subString)) &&
+    otherUser.id !== user.id
+  );
+};
 
 exports.index = async (request, response) => {
   const searchString = request.query.search.toLowerCase();
   const user = request.user;
   if (searchString) {
     const searchArray = searchString.split(' ');
-    const usernamesAndIds = await User.query().select('username', 'id');
+    const usernamesAndIds = await User.query().select(
+      'username',
+      'about_me',
+      'id'
+    );
     let matchingIds = new Set();
     searchArray.map(subString => {
-      const matching = usernamesAndIds.filter(({ username, id }) => {
-        return username.toLowerCase().includes(subString) && id !== user.id;
+      const matching = usernamesAndIds.filter(otherUser => {
+        return userContainsSubString(user, otherUser, subString);
       });
       const ids = matching.map(user => user.id);
       matchingIds = [...matchingIds, ...ids];
-      User.query()
-        .findByIds(matchingIds)
-        .then(users => response.json({ users }));
     });
+    User.query()
+      .findByIds(matchingIds)
+      .then(users => {
+        response.status(200).json({ users });
+      });
   }
 };
 
@@ -32,7 +44,8 @@ exports.create = (request, response) => {
     User.query()
       .insert({
         username: user.username,
-        password_digest: hashedPassword
+        password_digest: hashedPassword,
+        about_me: user.about_me
       })
       .then(newUser => {
         sendUserWithToken(newUser.id, response);
