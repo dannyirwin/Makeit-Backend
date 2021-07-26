@@ -1,3 +1,4 @@
+const { response } = require('express');
 const Project = require('../models/Project');
 
 const { sendUser, sendUserWithProject } = require('../utilities/userUtilities');
@@ -32,6 +33,15 @@ exports.index = async (request, response) => {
         .then(projects => response.status(200).json({ projects }));
     });
   }
+};
+
+exports.show = (request, response) => {
+  const id = request.params.id;
+  console.log(id);
+  Project.query()
+    .findById(id)
+    .withGraphFetched('[author, comments]')
+    .then(project => response.status(200).json(project));
 };
 
 exports.create = (request, response) => {
