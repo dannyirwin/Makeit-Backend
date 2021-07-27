@@ -1,14 +1,13 @@
 const { Model } = require('objection');
 const database = require('../database');
 
-const User = require('../models/User');
-
 Model.knex(database);
 
 class Comment extends Model {
   static tableName = 'comments';
 
   static get relationMappings() {
+    const User = require('../models/User');
     return {
       user: {
         relation: Model.BelongsToOneRelation,

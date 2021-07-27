@@ -29,7 +29,8 @@ exports.index = async (request, response) => {
       matchingIds = [...matchingIds, ...ids];
       Project.query()
         .findByIds(matchingIds)
-        .withGraphFetched('[author, images]')
+        .where({ is_published: true })
+        .withGraphFetched('[author, images, comments.[user]]')
         .then(projects => response.status(200).json({ projects }));
     });
   }
@@ -39,8 +40,10 @@ exports.show = (request, response) => {
   const id = request.params.id;
   Project.query()
     .findById(id)
-    .withGraphFetched('[author, comments, images]')
-    .then(project => response.status(200).json(project));
+    .withGraphFetched('[author, comments.[user], images]')
+    .then(project => {
+      response.status(200).json(project);
+    });
 };
 
 exports.create = (request, response) => {

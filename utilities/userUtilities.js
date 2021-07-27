@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const userGraphFetchedValues = () =>
-  `[followers, following, myProjects.[author, comments, images], followed_projects.[author, comments]]`;
+  `[followers, following, myProjects.[author, comments.[user], images], followed_projects.[author, comments.[user], images]]`;
 
 const sendUserWithToken = async (userId, response) => {
   const payload = { user_id: userId };

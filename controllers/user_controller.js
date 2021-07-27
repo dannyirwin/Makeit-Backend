@@ -5,8 +5,8 @@ const { sendUserWithToken } = require('../utilities/userUtilities');
 
 const userContainsSubString = (user, otherUser, subString) => {
   return (
-    (user.username.toLowerCase().includes(subString) ||
-      user.about_me.toLowerCase().includes(subString)) &&
+    (otherUser.username.toLowerCase().includes(subString) ||
+      otherUser.about_me.toLowerCase().includes(subString)) &&
     otherUser.id !== user.id
   );
 };
@@ -22,6 +22,7 @@ exports.index = async (request, response) => {
       'id'
     );
     let matchingIds = new Set();
+    console.log(usernamesAndIds);
     searchArray.map(subString => {
       const matching = usernamesAndIds.filter(otherUser => {
         return userContainsSubString(user, otherUser, subString);

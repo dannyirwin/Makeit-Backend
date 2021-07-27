@@ -11,8 +11,11 @@ exports.create = (request, response) => {
     .then(comment => {
       Project.query()
         .findById(comment.project_id)
-        .withGraphFetched('[author, comments]')
-        .then(project => response.status(200).json(project));
+        .withGraphFetched('[author, comments.[user], images]')
+        .then(project => {
+          console.log(project);
+          response.status(200).json(project);
+        });
     });
 };
 
