@@ -3,6 +3,7 @@ const database = require('../database');
 Model.knex(database);
 
 const Comment = require('./Comment');
+const Image = require('./Image');
 
 class Project extends Model {
   static tableName = 'projects';
@@ -24,6 +25,14 @@ class Project extends Model {
         join: {
           from: 'projects.id',
           to: 'comments.project_id'
+        }
+      },
+      images: {
+        relation: Model.HasManyRelation,
+        modelClass: Image,
+        join: {
+          from: 'projects.id',
+          to: 'images.project_id'
         }
       }
     };

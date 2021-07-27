@@ -5,7 +5,6 @@ const { hintComment } = require('../database');
 const Project = require('../models/Project');
 
 exports.create = (request, response) => {
-  console.log(request.body);
   const { comment } = request.body;
   Comment.query()
     .insert(comment)

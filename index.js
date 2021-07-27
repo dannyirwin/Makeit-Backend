@@ -9,6 +9,7 @@ const { projectsRouter } = require('./routes/projects');
 const { followRouter } = require('./routes/follow');
 const { userProjectsRouter } = require('./routes/userProjects');
 const { commentsRouter } = require('./routes/comments');
+const { imagesRouter } = require('./routes/images');
 
 const app = express();
 app.use(cors());
@@ -18,6 +19,7 @@ app.use(projectsRouter);
 app.use(followRouter);
 app.use(userProjectsRouter);
 app.use(commentsRouter);
+app.use(imagesRouter);
 
 app.listen(PORT, () => {
   console.log('Listening on port ' + PORT);
