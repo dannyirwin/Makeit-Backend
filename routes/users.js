@@ -12,4 +12,6 @@ router.post('/login', userController.login);
 
 router.patch('/users/:id', authenticate, userController.update);
 
+router.get('/users/:id', authenticate, userController.show);
+
 module.exports = { usersRouter: router };

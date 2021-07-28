@@ -80,9 +80,13 @@ exports.login = (request, response) => {
 exports.update = (request, response) => {
   const id = request.params.id;
   const body = request.body;
-  console.log(id);
   User.query()
     .findById(id)
     .update(body)
     .then(userId => sendUser(userId, response));
+};
+
+exports.show = (request, response) => {
+  const id = request.params.id;
+  sendUser(id, response);
 };

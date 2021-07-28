@@ -11,18 +11,30 @@ const sendUserWithToken = async (userId, response) => {
   return await User.query()
     .findById(userId)
     .withGraphFetched(userGraphFetchedValues())
-    .then(user =>
+    .select(
+      'users.*',
+      User.relatedQuery('followers').count().as('follower_count'),
+      User.relatedQuery('following').count().as('following_count'),
+      User.relatedQuery('myProjects').count().as('projects_count')
+    )
+    .then(user => {
       response.status(200).json({
         token,
         user: user
-      })
-    );
+      });
+    });
 };
 
 const sendUser = async (userId, response) => {
   return await User.query()
     .findById(userId)
     .withGraphFetched(userGraphFetchedValues())
+    .select(
+      'users.*',
+      User.relatedQuery('followers').count().as('follower_count'),
+      User.relatedQuery('following').count().as('following_count'),
+      User.relatedQuery('myProjects').count().as('projects_count')
+    )
     .then(user =>
       response.status(200).json({
         user: user
@@ -34,6 +46,12 @@ const sendUserWithProject = async (userId, response, project) => {
   return await User.query()
     .findById(userId)
     .withGraphFetched(userGraphFetchedValues())
+    .select(
+      'users.*',
+      User.relatedQuery('followers').count().as('follower_count'),
+      User.relatedQuery('following').count().as('following_count'),
+      User.relatedQuery('myProjects').count().as('projects_count')
+    )
     .then(user => {
       response.status(200).json({
         user: user,
