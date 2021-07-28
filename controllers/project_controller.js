@@ -58,8 +58,6 @@ exports.create = (request, response) => {
 exports.update = async (request, response) => {
   const projectId = request.params.id;
   const newProject = request.body.project;
-  console.log('----', projectId);
-  console.log('-----', newProject);
 
   Project.query()
     .findById(projectId)

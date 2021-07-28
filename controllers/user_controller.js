@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
-const { sendUserWithToken } = require('../utilities/userUtilities');
+const { sendUserWithToken, sendUser } = require('../utilities/userUtilities');
 
 const userContainsSubString = (user, otherUser, subString) => {
   return (
@@ -22,7 +22,6 @@ exports.index = async (request, response) => {
       'id'
     );
     let matchingIds = new Set();
-    console.log(usernamesAndIds);
     searchArray.map(subString => {
       const matching = usernamesAndIds.filter(otherUser => {
         return userContainsSubString(user, otherUser, subString);
@@ -76,4 +75,14 @@ exports.login = (request, response) => {
           });
       }
     });
+};
+
+exports.update = (request, response) => {
+  const id = request.params.id;
+  const body = request.body;
+  console.log(id);
+  User.query()
+    .findById(id)
+    .update(body)
+    .then(userId => sendUser(userId, response));
 };

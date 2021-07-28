@@ -10,4 +10,6 @@ router.post('/users', userController.create);
 
 router.post('/login', userController.login);
 
+router.patch('/users/:id', authenticate, userController.update);
+
 module.exports = { usersRouter: router };

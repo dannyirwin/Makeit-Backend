@@ -13,14 +13,12 @@ exports.create = (request, response) => {
         .findById(comment.project_id)
         .withGraphFetched('[author, comments.[user], images]')
         .then(project => {
-          console.log(project);
           response.status(200).json(project);
         });
     });
 };
 
 exports.delete = (request, response) => {
-  console.log(request.params.id);
   //   const { follower_followee } = request.body;
   //   FollowerFollowee.query()
   //     .delete()

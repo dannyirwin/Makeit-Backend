@@ -4,7 +4,6 @@ const Image = require('../models/Image');
 
 exports.create = (request, response) => {
   const { image } = request.body;
-  console.log(image);
   Image.query()
     .insert(image)
     .then(image => {
