@@ -12,7 +12,15 @@ const { commentsRouter } = require('./routes/comments');
 const { imagesRouter } = require('./routes/images');
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      'https://makeit-e985d.web.app/',
+      'http://localhost:3000',
+      'http://localhost:3001'
+    ]
+  })
+);
 app.use(express.json());
 app.use(usersRouter);
 app.use(projectsRouter);
