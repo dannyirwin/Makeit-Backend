@@ -14,11 +14,12 @@ const { imagesRouter } = require('./routes/images');
 const app = express();
 app.use(
   cors({
-    origin: [
-      'https://makeit-e985d.web.app/',
-      'http://localhost:3000',
-      'http://localhost:3001'
-    ]
+    origin: '*'
+    //   [
+    //   'https://makeit-e985d.web.app/',
+    //   'http://localhost:3000',
+    //   'http://localhost:3001'
+    // ]
   })
 );
 app.use(express.json());
