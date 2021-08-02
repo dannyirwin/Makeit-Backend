@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "makeit-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -22,5 +22,8 @@
   "devDependencies": {
     "dotenv": "^10.0.0",
     "nodemon": "^2.0.12"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
